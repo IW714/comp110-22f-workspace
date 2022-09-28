@@ -32,7 +32,7 @@ def sub(num_list: list[int], start_index: int, end_index: int) -> list[int]:
     list1: list[int] = list()
     if start_index > 0:
         i: int = start_index
-    else: 
+    else:
         i: int = 0
     while i < end_index:
         if i == len(num_list):

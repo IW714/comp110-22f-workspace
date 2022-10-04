@@ -135,12 +135,12 @@ def initiate_combat(entity: str, e_attack: int, e_defense: int, e_health: int) -
             print(("\n----------PLAYER'S TURN----------\n"))
             crit: int = random.randint(1, 5)
             damage: int = random.randint(attack - 2, attack + 2)
+            damage_dealt: int = damage - e_defense
             if crit == 1:
-                damage_dealt: int = round(damage * 1.2) - e_defense
+                damage_dealt = round(damage * 1.2) - e_defense
                 print(f"\nCritical! {player} hits {entity} for bonus ({damage}*1.2 rounded) damage!")
                 print(f"{entity} blocks {e_defense} damage.")
             else:
-                damage_dealt: int = damage - e_defense
                 print(f"\n{player} deals {damage} damage to {entity}.")
                 print(f"{entity} blocks {e_defense} damage.")
             if damage_dealt <= 0:
@@ -165,38 +165,38 @@ def initiate_combat(entity: str, e_attack: int, e_defense: int, e_health: int) -
             combat_end = True
         # Enemy Turn Below.
         if combat_end is False:
-            e_crit: int = random.randint(1, 5)
-            damage: int = random.randint(e_attack - 2, e_attack + 2)
             print(("\n----------ENEMY'S TURN----------\n"))
+            e_crit: int = random.randint(1, 5)
+            e_damage: int = random.randint(e_attack - 2, e_attack + 2)
+            e_damage_dealt: int = 0
+            defend: int = defense
             if e_crit == 1:
                 if defend_check is True:
-                    defend: int = round((defense * 1.3))
-                    damage_dealt: int = round(damage * 1.2) - defend
+                    defend = round((defense * 1.3))
+                    e_damage_dealt = round(e_damage * 1.2) - defend
                 else:
-                    defend: int = defense
-                    damage_dealt: int = round(damage * 1.2) - defend
-                print(f"\nCritical! {entity} hits {player} for bonus ({damage}*1.2 rounded) damage!")
+                    e_damage_dealt = round(e_damage * 1.2) - defend
+                print(f"\nCritical! {entity} hits {player} for bonus ({e_damage}*1.2 rounded) damage!")
                 print(f"{player} blocks {defend} damage.")
-                if damage_dealt <= 0:
+                if e_damage_dealt <= 0:
                     print(f"{player} takes no damage!")
                 else:
-                    current_health -= damage_dealt
-                    print(f"{player} takes {damage_dealt} damage.")
+                    current_health -= e_damage_dealt
+                    print(f"{player} takes {e_damage_dealt} damage.")
                 print(f"{player} has {current_health} health remaining.")
             else:
                 if defend_check is True:
-                    defend: int = round((defense * 1.3))
-                    damage_dealt: int = damage - defend
+                    defend = round((defense * 1.3))
+                    e_damage_dealt = e_damage - defend
                 else:
-                    defend: int = defense
-                    damage_dealt: int = damage - defend
-                print(f"\n{entity} deals {damage} damage to {player}.")
+                    e_damage_dealt = e_damage - defend
+                print(f"\n{entity} deals {e_damage} damage to {player}.")
                 print(f"{player} blocks {defend} damage.")
-                if damage_dealt <= 0:
+                if e_damage_dealt <= 0:
                     print(f"{player} takes no damage!")
                 else:
-                    current_health -= damage_dealt
-                    print(f"{player} takes {damage_dealt} damage.") 
+                    current_health -= e_damage_dealt
+                    print(f"{player} takes {e_damage_dealt} damage.") 
                 print(f"{player} has {current_health} health remaining.")
         if current_health <= 0:
             print(f"{player}'s health has reached 0!")
@@ -208,11 +208,12 @@ def initiate_combat(entity: str, e_attack: int, e_defense: int, e_health: int) -
 def reward() -> None:
     """Rewards given after a successful encounter."""
     global attack, defense, max_health, current_health, cheat_check
+    reward: int = 0
     select_1: bool = False
     print(("\n----------SELECT REWARD----------\n"))
     if turn == 0:
         while select_1 is False:
-            reward: int = int(input("\nPlease choose a [minor] reward:\n(1)Minor stone of attack (+2 attack AND +3 max health)\n(2)Minor stone of defense (+2 defense AND +3 max health)\n(3)Minor stone of health (+8 max health)\n"))
+            reward = int(input("\nPlease choose a [minor] reward:\n(1)Minor stone of attack (+2 attack AND +3 max health)\n(2)Minor stone of defense (+2 defense AND +3 max health)\n(3)Minor stone of health (+8 max health)\n"))
             if reward < 1 or reward > 3:
                 print("\nPlease choose one of the listed options.")
             elif reward == 1:
@@ -231,7 +232,7 @@ def reward() -> None:
                 select_1 = True
     elif turn == 1:
         while select_1 is False:
-            reward: int = int(input("\nPlease choose a [mediant] reward:\n(1)Orange gem (+2 attack AND +2 defense)\n(2)Purple Gem (+3 defense AND +7 max health)\n(3)Crimson gem(+4 attack))\n(4)Lemonade (Restores all health)\n"))
+            reward = int(input("\nPlease choose a [mediant] reward:\n(1)Orange gem (+2 attack AND +2 defense)\n(2)Purple Gem (+3 defense AND +7 max health)\n(3)Crimson gem(+4 attack))\n(4)Lemonade (Restores all health)\n"))
             if reward < 1 or reward > 4:
                 print("\nPlease choose one of the listed options.")
             elif reward == 1:
@@ -251,7 +252,7 @@ def reward() -> None:
                 select_1 = True
     else:
         while select_1 is False:
-            reward: int = int(input("\nPlease choose a [major] reward:\n***Note: All your health will be restored before the Final Boss.\n(1)Boolean Sword (+4 attack and +5 max health OR +3 defense and +7 max health)\n(2)Apparatus of the Kernel (+2 attack, +2 defense, AND +4 max health)\n(3)Prism of balance (+6 attack AND -2 defense)\n(4)Orb of balance (+5 defense AND -2 attack)\n(5)Bag of infinite loops (+999 attack, +999 defense, AND -999 points)\n"))
+            reward = int(input("\nPlease choose a [major] reward:\n***Note: All your health will be restored before the Final Boss.\n(1)Boolean Sword (+4 attack and +5 max health OR +3 defense and +7 max health)\n(2)Apparatus of the Kernel (+2 attack, +2 defense, AND +4 max health)\n(3)Prism of balance (+6 attack AND -2 defense)\n(4)Orb of balance (+5 defense AND -2 attack)\n(5)Bag of infinite loops (+999 attack, +999 defense, AND -999 points)\n"))
             if reward < 1 or reward > 5:
                 print("\nPlease choose one of the listed options.")
             elif reward == 1:

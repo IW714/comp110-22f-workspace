@@ -22,7 +22,6 @@ def favorite_color(my_dictionary: dict[str, str]) -> str:
             temp[my_dictionary[key]] += 1
         else:
             temp[my_dictionary[key]] = 1
-    print(temp)
     for color in temp:
         if temp[color] > most_frequent:
             most_frequent = temp[color]
